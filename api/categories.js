@@ -3,19 +3,6 @@ const { Client } = require('pg');
 
 const router = express.Router();
 
-// Database configuration
-const con = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: 1234,
-    password: "1234",
-    database: ".GEN" 
-});
-
-con.connect()
-    .then(() => console.log("Connected to PostgreSQL"))
-    .catch(err => console.error('Connection error', err.stack));
-
 // Route to get all categories
 router.get('/', (req, res) => {
     con.query('SELECT * FROM categories')

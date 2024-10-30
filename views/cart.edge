@@ -46,5 +46,44 @@
             </div>
         </div>
     </section>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantities = document.querySelectorAll('.quantity');
+        const grandTotal = document.getElementById('grand-total');
+        const checkoutButton = document.getElementById('checkout');
+
+        function updateTotal() {
+            let total = 0;
+            quantities.forEach(quantity => {
+                const price = parseFloat(quantity.getAttribute('data-price'));
+                const qty = parseInt(quantity.value);
+                const rowTotal = price * qty;
+                quantity.closest('tr').querySelector('.total').textContent = `$${rowTotal.toFixed(2)}`;
+                total += rowTotal;
+            });
+            grandTotal.textContent = `$${total.toFixed(2)}`;
+        }
+
+        quantities.forEach(quantity => {
+            quantity.addEventListener('change', updateTotal);
+        });
+
+        checkoutButton.addEventListener('click', function() {
+            fetch('/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Optionally, redirect to a confirmation page
+            });
+        });
+
+        updateTotal();
+    });
+</script>
 
 @endsection

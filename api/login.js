@@ -1,40 +1,35 @@
 const express = require('express');
-const { Client } = require('pg');
+const bcrypt = require('bcrypt'); // Import bcrypt
 const router = express.Router();
 
-// Database configuration
-const con = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: 1234,
-    password: "1234",
-    database: ".GEN" 
-});
-
-con.connect()
-    .then(() => console.log("Connected to PostgreSQL"))
-    .catch(err => console.error('Connection error', err.stack));
 
 // Route to login a user
-router.post('/', (req, res) => {
-    const { username, password } = req.body;
+router.post('/', async (req, res) => {
+    const { email, password } = req.body;
 
-    const selectQuery = `
-        SELECT * FROM users WHERE username = $1 AND password = $2
-    `;
-    const values = [username, password];
+    try {
+        // Check if the user exists
+        const selectQuery = 'SELECT * FROM users WHERE email = $1';
+        const userCheckResult = await con.query(selectQuery, [email]);
 
-    con.query(selectQuery, values)
-        .then(result => {
-            if (result.rowCount === 0) {
-                return res.status(401).send("Invalid username or password");
-            }
-            res.status(200).send("Login successful");
-        })
-        .catch(err => {
-            console.error("Error logging in:", err.message);
-            res.status(500).send("Error logging in");
-        });
+        if (userCheckResult.rowCount === 0) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        const user = userCheckResult.rows[0];
+
+        // Compare the hashed password
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        res.status(200).json({ message: "Login successful" });
+    } catch (err) {
+        console.error("Error logging in:", err.message);
+        res.status(500).json({ message: "Error logging in", error: err.message });
+    }
 });
 
 module.exports = router;

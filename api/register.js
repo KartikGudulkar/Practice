@@ -1,6 +1,7 @@
 const express = require('express');
 const { Client } = require('pg');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 const app = express();
 
@@ -20,7 +21,7 @@ con.connect()
     .then(() => console.log("Connected to PostgreSQL"))
     .catch(err => console.error('Connection error', err.stack));
 // Route to handle registration
-router.post('/register', async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
 
     if (!name || !email || !password || !confirmPassword) {

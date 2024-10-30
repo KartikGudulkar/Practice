@@ -1,61 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-    <link rel="stylesheet" href="css/styles.css">  <!-- Link to CSS if needed -->
-    <!-- Bootstrap CSS (example) -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Homepage - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
-    <!-- Header or Navbar (Optional) -->
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">.GEN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="shop.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="mobiles.html">Mobiles</a></li>
+                            <li><a class="dropdown-item" href="laptops.html">Laptops</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark me-2" type="button" onclick="location.href='login.html'">
+                        <i class="bi-person-fill me-1"></i>
+                        Log out
+                    </button>
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header-->
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Shop with Us</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Discover our range of products</p>
+                <h1 class="display-4 fw-bolder">Shop technology</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Future</p>
             </div>
         </div>
     </header>
 
-    <!-- Product Listing Section -->
+    <!-- Section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                @each(product in products)
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="@{product.name}" />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">@{product.name}</h5>
-                                    <!-- Product price-->
-                                    $@{product.price.toFixed(2)}
-                                    <p>@{product.description}</p>
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                @endeach
+            <h2 class="text-center mb-4">Laptops</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="laptop-products">
+                <!-- Dynamic Laptop Products will be inserted here -->
+            </div>
+        </div>
+        <div class="container px-4 px-lg-5 mt-5">
+            <h2 class="text-center mb-4">Mobiles</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="mobile-products">
+                <!-- Dynamic Mobile Products will be inserted here -->
             </div>
         </div>
     </section>
 
-    <!-- Footer (Optional) -->
+    <!-- Footer-->
     <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">© 2024 Your Company Name</p></div>
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
     </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="index.js"></script>
+    <script>
+        // Product data
+        const laptopProducts = [
+            {
+                name: 'Dell XPS 13',
+                description: 'Ultra-thin laptop with Intel Core i7, 16GB RAM, 512GB SSD',
+                stock: 10,
+                price: 1200.00,
+                imageUrl: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg'
+            },
+            {
+                name: 'MacBook Air M1',
+                description: 'Lightweight with Apple M1 chip, 8GB RAM, 256GB SSD',
+                stock: 5,
+                price: 999.00,
+                imageUrl: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg'
+            },
+            {
+                name: 'HP Spectre x360',
+                description: '2-in-1 convertible with Intel Core i5, 8GB RAM, 512GB SSD',
+                stock: 7,
+                price: 1100.00,
+                imageUrl: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg'
+            },
+            {
+                name: 'Lenovo ThinkPad X1 Carbon',
+                description: 'Business laptop with Intel Core i7, 16GB RAM, 1TB SSD',
+                stock: 8,
+                price: 1400.00,
+                imageUrl: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg'
+            }
+        ];
 
-    <!-- Bootstrap JS (example) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        const mobileProducts = [
+            {
+                name: 'iPhone 14',
+                description: 'Latest Apple iPhone with A15 Bionic chip, 128GB storage',
+                stock: 10,
+                price: 999.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UF1000,1000_QL80_.jpg'
+            },
+            {
+                name: 'Samsung Galaxy S22',
+                description: 'Android phone with Exynos 2200, 128GB storage, 5G',
+                stock: 15,
+                price: 899.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/41rwOAFWwUL._SX300_SY300_QL70_FMwebp_.jpg'
+            },
+            {
+                name: 'Google Pixel 6',
+                description: 'Flagship Google phone with Tensor chip, 128GB storage',
+                stock: 8,
+                price: 699.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/51ayRxSifqL.jpg'
+            },
+            {
+                name: 'OnePlus 10 Pro',
+                description: 'Powerful phone with Snapdragon 8 Gen 1, 256GB storage',
+                stock: 10,
+                price: 799.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/41hbeJ-SaUL._SX300_SY300_QL70_FMwebp_.jpg'
+            }
+        ];
+        function createProductCard(product) {
+    // Convert product object to query string
+    const productQueryString = new URLSearchParams(product).toString();
+
+    return `
+        <div class="col mb-5">
+            <div class="card h-100">
+                <img class="card-img-top" src="${product.imageUrl}" alt="${product.name}" />
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <h5 class="fw-bolder">${product.name}</h5>
+                        <p>${product.description}</p>
+                        <p class="text-muted">Stock: ${product.stock}</p>
+                        <span>$${product.price.toFixed(2)}</span>
+                    </div>
+                </div>
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-outline-dark mt-auto me-2" href="cart.html?${productQueryString}">Add to cart</a>
+                        <a class="btn btn-dark mt-auto" href="buynow.html?${productQueryString}">Buy Now</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+        function displayProducts() {
+            const laptopContainer = document.getElementById('laptop-products');
+            const mobileContainer = document.getElementById('mobile-products');
+
+            laptopProducts.forEach(product => {
+                laptopContainer.innerHTML += createProductCard(product, 'laptop');
+            });
+
+            mobileProducts.forEach(product => {
+                mobileContainer.innerHTML += createProductCard(product, 'mobile');
+            });
+        }
+
+        // Call the function to display products when the page loads
+        window.onload = displayProducts;
+    </script>
 </body>
 </html>

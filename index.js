@@ -1,63 +1,58 @@
 const express = require('express');
-const { Client } = require('pg');
+const path = require('path');
+const engine = require('express-edge');
+const bodyParser = require('body-parser');
+const usersApi = require('./api/users');
+const productApi = require('./api/product');
+const ordersApi = require('./api/orders');
+const categoriesApi = require('./api/categories');
+const registerApi = require('./api/register');
+const loginApi = require('./api/login');
+const cartApi= require('./api/cart');
+
 const app = express();
+const router = express.Router();
+const port = 3001;
 
-// Database configuration
-const con = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: 1234,
-    password: "1234",
-    database: ".GEN" 
-});
+app.use(express.json()); // Middleware for JSON parsing
+app.use(bodyParser.json());
 
-con.connect()
-    .then(() => console.log("Connected to PostgreSQL"))
-    .catch(err => console.error('Connection error', err.stack));
+// Set up Edge as the view engine
+app.use(engine);
+app.set('views', path.join(__dirname, 'views')); // Path for the views
 
-// Route to render the homepage with products data
-app.get('/', async (req, res) => {
-    try {
-        // Fetch available products from the database
-        const result = await pool.query('SELECT * FROM products WHERE stock > 0');
-        res.render('index', { products: result.rows });  // Pass products data to the template
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        res.status(500).send('Server Error');
-    }
-});
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to parse JSON
-app.use(express.json());
+// Render routes for .edge pages
+app.get('/', (req, res) => res.render('index'));
+app.get('/about', (req, res) => res.render('about'));
+app.get('/shop', (req, res) => res.render('shop'));
+app.get('/login', (req, res) => res.render('login'));
+app.get('/register', (req, res) => res.render('register'));
+app.get('/cart', (req, res) => res.render('cart'));
+app.get('/products', (req, res) => res.render('products'));
 
-// Route to get all products
-router.get('/products', (req, res) => {
-    con.query('SELECT * FROM products')
-        .then(result => res.status(200).json(result.rows))
-        .catch(err => {
-            console.error('Error fetching data:', err);
-            res.status(500).send('Error fetching data');
-        });
-});
+// Use the users API
+app.use('/api/users', usersApi);
 
-// Route to get a single product by ID
-router.get('/products/:id', (req, res) => {
-    const { id } = req.params;
-    con.query('SELECT * FROM products WHERE id = $1', [id])
-        .then(result => {
-            if (result.rowCount === 0) return res.status(404).send('Product not found');
-            res.status(200).json(result.rows[0]);
-        })
-        .catch(err => {
-            console.error('Error fetching data:', err);
-            res.status(500).send('Error fetching data');
-        });
-});
+// Use the products API
+app.use('/api/product', productApi);
 
-// Use router for product endpoints
-app.use('/api', router);
+// Use the orders API
+app.use('/api/orders', ordersApi);
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+// Use the categories API
+app.use('/api/categories', categoriesApi);
+
+// Use the register API
+app.use('/api/register', registerApi);
+
+// Use the login API
+app.use('/api/login', loginApi);
+
+// // Use the cartAPI
+// app.use('/api/cart', cartApi);
+
+// Start the server and listen on port 3001
+app.listen(3001, () => console.log('App listening on port 3001'));
