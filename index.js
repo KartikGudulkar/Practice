@@ -1,8 +1,6 @@
 const express = require('express');
 const { Client } = require('pg');
 const app = express();
-const router = express.Router();
-const port = 3001;
 
 // Database configuration
 const con = new Client({
